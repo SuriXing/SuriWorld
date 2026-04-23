@@ -213,14 +213,20 @@ export function InteractionManager(): null {
           const yaw = s.fpActive ? s.fpYaw : s.charFacing;
           const lookX = -Math.sin(yaw);
           const lookZ = -Math.cos(yaw);
+          // Among doors IN FRONT of the camera (dot > 0), pick the CLOSEST.
+          // Previously picked the highest dot product, which broke tie cases
+          // where two doors sat at symmetric angles (e.g. Book and Idea Lab
+          // both at z=+1.25 when player faces +z) — strict-> tie-break let
+          // the earlier-in-ROOMS-array door win, making Idea Lab unreachable.
           let target: RoomId | null = null;
-          let bestDot = 0;
+          let bestDist = Infinity;
           for (const r of ROOMS) {
             const dx = r.door.x - s.charPos.x;
             const dz = r.door.z - s.charPos.z;
             const len = Math.hypot(dx, dz) || 1;
             const dot = (dx * lookX + dz * lookZ) / len;
-            if (dot > bestDot) { bestDot = dot; target = r.id; }
+            if (dot <= 0.05) continue; // not in front
+            if (len < bestDist) { bestDist = len; target = r.id; }
           }
           if (target) {
             if (s.unlockedDoors.has(target)) {
