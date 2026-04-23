@@ -67,6 +67,10 @@ function tintHex(hex: string, dL: number, dH = 0): string {
 export function Door({ x, z, horizontal, roomId, accentColor, label }: DoorProps) {
   const unlocked = useWorldStore((s) => s.unlockedDoors.has(roomId));
   const theme = useWorldStore((s) => s.theme);
+  // Only show the room-name plaque when the player is the door this label
+  // belongs to is the currently-nearby room. Avoids 4 plaques + the U-prompt
+  // all crowding the corridor view from the spawn point.
+  const isNearby = useWorldStore((s) => s.nearbyRoom === roomId);
   const edgeColor = theme === 'dark' ? EDGE_DARK : EDGE_LIGHT;
   const hingeRef = useRef<Group>(null);
   const lockGroupRef = useRef<Group>(null);
@@ -499,7 +503,7 @@ export function Door({ x, z, horizontal, roomId, accentColor, label }: DoorProps
       {/* Carved wood plaque — room name above the door, hallway side.
           Uses drei <Html> so the text auto-faces the camera and stays
           legible at any distance/angle. */}
-      {label && (
+      {label && isNearby && (
         <Html
           position={[
             x - insideSignX * 0.18,
