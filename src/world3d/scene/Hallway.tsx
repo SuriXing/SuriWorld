@@ -63,6 +63,127 @@ const STEAM_OFFSETS: ReadonlyArray<readonly [number, number, number]> = [
 // Per-plant sway phase offsets (module scope = baked once, no useMemo needed).
 const PLANT_PHASES: ReadonlyArray<number> = [0, Math.PI * 0.5, Math.PI, Math.PI * 1.5];
 
+// Inner-x / inner-z room walls form the corridor side walls (the ones
+// without doors). Mount stylized "art" frames on them. Each frame is a
+// chunky outer plate + a brighter inner canvas with a tiny abstract motif.
+// Procedural primitives only — no textures, no GLTF.
+interface WallArtProps {
+  /** World-space center of the FRAME face. */
+  x: number;
+  y: number;
+  z: number;
+  /** Wall normal axis: 'x' = mounted on a wall whose normal is ±x. */
+  axis: 'x' | 'z';
+  /** Which side of the wall the art face points to (sign of normal). */
+  facing: 1 | -1;
+  width: number;
+  height: number;
+  /** Frame (mat) hex. */
+  frameColor: string;
+  /** Canvas (art) hex. */
+  artColor: string;
+  /** Optional accent color for the simple abstract motif. */
+  motifColor?: string;
+  /** Motif kind — keeps each frame visually distinct. */
+  motif?: 'circle' | 'stripes' | 'cross' | 'square';
+}
+
+function WallArt({
+  x, y, z, axis, facing, width, height,
+  frameColor, artColor, motifColor, motif = 'circle',
+}: WallArtProps) {
+  const FRAME_T = 0.04;       // total frame thickness off the wall
+  const MAT = 0.08;           // mat (visible frame border) on each side
+  // Box args follow the wall orientation.
+  const frameArgs: [number, number, number] = axis === 'x'
+    ? [FRAME_T, height, width]
+    : [width, height, FRAME_T];
+  const canvasArgs: [number, number, number] = axis === 'x'
+    ? [FRAME_T * 0.5, height - MAT * 2, width - MAT * 2]
+    : [width - MAT * 2, height - MAT * 2, FRAME_T * 0.5];
+  // Push the canvas slightly proud of the frame, on the facing side.
+  const canvasOffset = (FRAME_T * 0.5 + 0.001) * facing;
+  const canvasPos: [number, number, number] = axis === 'x'
+    ? [x + canvasOffset, y, z]
+    : [x, y, z + canvasOffset];
+  // Motif sits another hair proud of the canvas.
+  const motifOffset = canvasOffset + 0.002 * facing;
+  const motifPos: [number, number, number] = axis === 'x'
+    ? [x + motifOffset, y, z]
+    : [x, y, z + motifOffset];
+
+  return (
+    <group>
+      {/* Outer frame (mat) */}
+      <mesh position={[x, y, z]}>
+        <boxGeometry args={frameArgs} />
+        <meshPhongMaterial color={frameColor} flatShading />
+      </mesh>
+      {/* Canvas */}
+      <mesh position={canvasPos}>
+        <boxGeometry args={canvasArgs} />
+        <meshPhongMaterial
+          color={artColor}
+          emissive={artColor}
+          emissiveIntensity={0.18}
+          flatShading
+        />
+      </mesh>
+      {/* Tiny abstract motif so each piece reads as "art", not a swatch. */}
+      {motifColor && motif === 'circle' && (
+        <mesh position={motifPos} rotation={axis === 'x' ? [0, Math.PI / 2, 0] : [0, 0, 0]}>
+          <cylinderGeometry args={[Math.min(width, height) * 0.22, Math.min(width, height) * 0.22, 0.005, 24]} />
+          <meshPhongMaterial color={motifColor} emissive={motifColor} emissiveIntensity={0.3} flatShading />
+        </mesh>
+      )}
+      {motifColor && motif === 'square' && (
+        <mesh position={motifPos}>
+          <boxGeometry args={axis === 'x' ? [0.005, height * 0.45, width * 0.45] : [width * 0.45, height * 0.45, 0.005]} />
+          <meshPhongMaterial color={motifColor} emissive={motifColor} emissiveIntensity={0.3} flatShading />
+        </mesh>
+      )}
+      {motifColor && motif === 'stripes' && [-0.25, 0, 0.25].map((o, i) => (
+        <mesh key={i} position={axis === 'x' ? [motifPos[0], y, z + o * width] : [x + o * width, y, motifPos[2]]}>
+          <boxGeometry args={axis === 'x' ? [0.005, height * 0.55, width * 0.10] : [width * 0.10, height * 0.55, 0.005]} />
+          <meshPhongMaterial color={motifColor} emissive={motifColor} emissiveIntensity={0.3} flatShading />
+        </mesh>
+      ))}
+      {motifColor && motif === 'cross' && (
+        <group>
+          <mesh position={motifPos}>
+            <boxGeometry args={axis === 'x' ? [0.005, height * 0.6, width * 0.12] : [width * 0.12, height * 0.6, 0.005]} />
+            <meshPhongMaterial color={motifColor} emissive={motifColor} emissiveIntensity={0.3} flatShading />
+          </mesh>
+          <mesh position={motifPos}>
+            <boxGeometry args={axis === 'x' ? [0.005, height * 0.12, width * 0.6] : [width * 0.6, height * 0.12, 0.005]} />
+            <meshPhongMaterial color={motifColor} emissive={motifColor} emissiveIntensity={0.3} flatShading />
+          </mesh>
+        </group>
+      )}
+    </group>
+  );
+}
+
+// 8 frames — 2 per corridor arm (one per side wall). Mounted at eye-ish
+// height (y ≈ 1.25). Wall surface sits at ±(GAP + 0.05) = ±1.25; place the
+// frame center 0.05 inboard so the back of the frame just kisses the wall.
+const ART_Y = 1.25;
+const ART_INSET = 1.20; // 1.25 wall − 0.05 = inboard center
+const ART_PIECES: ReadonlyArray<Omit<WallArtProps, 'y'>> = [
+  // +z arm (looking up from origin) — left wall (book room inner-x at x=-1.25), right wall (idealab at x=+1.25)
+  { x: -ART_INSET, z: 2.4, axis: 'x', facing: 1,  width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#f4a8b8', motifColor: '#9f1239', motif: 'circle' },
+  { x:  ART_INSET, z: 2.4, axis: 'x', facing: -1, width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#fde68a', motifColor: '#a16207', motif: 'stripes' },
+  // -z arm — left wall (myroom at x=-1.25), right wall (product at x=+1.25)
+  { x: -ART_INSET, z: -2.4, axis: 'x', facing: 1,  width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#a78bfa', motifColor: '#4c1d95', motif: 'cross' },
+  { x:  ART_INSET, z: -2.4, axis: 'x', facing: -1, width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#7dd3fc', motifColor: '#0c4a6e', motif: 'square' },
+  // +x arm — back wall (idealab at z=+1.25), front wall (product at z=-1.25)
+  { x: 2.4, z:  ART_INSET, axis: 'z', facing: -1, width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#fca5a5', motifColor: '#7f1d1d', motif: 'stripes' },
+  { x: 2.4, z: -ART_INSET, axis: 'z', facing: 1,  width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#86efac', motifColor: '#14532d', motif: 'circle' },
+  // -x arm — back wall (book at z=+1.25), front wall (myroom at z=-1.25)
+  { x: -2.4, z:  ART_INSET, axis: 'z', facing: -1, width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#fed7aa', motifColor: '#9a3412', motif: 'square' },
+  { x: -2.4, z: -ART_INSET, axis: 'z', facing: 1,  width: 0.95, height: 0.7, frameColor: '#3a2410', artColor: '#bae6fd', motifColor: '#075985', motif: 'cross' },
+];
+
 export function Hallway() {
   const steamRef = useRef<THREE.Group>(null);
   // F3.21 idle loops: plant sway groups (4 plants) + beam-dust mote refs.
@@ -216,6 +337,13 @@ export function Hallway() {
       {/* Ceiling light strips (gold cross pattern) deleted per user
           request — they were the "white plus signs hanging on the
           ceiling" once the lanterns + beams were removed. */}
+
+      {/* Wall art — 8 framed pieces on the doorless side-walls of all 4
+          corridor arms. Procedural primitives only (frame + canvas + tiny
+          motif). Mounted at eye-ish height so they read at walking pace. */}
+      {ART_PIECES.map((p, i) => (
+        <WallArt key={`art-${i}`} {...p} y={ART_Y} />
+      ))}
     </group>
   );
 }
