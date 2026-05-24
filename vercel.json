@@ -5,7 +5,9 @@
   "framework": "vite",
   "redirects": [
     { "source": "/blog/:path*", "destination": "https://blog.iamsuri.ai/:path*", "permanent": true },
-    { "source": "/blog", "destination": "https://blog.iamsuri.ai", "permanent": true }
+    { "source": "/blog", "destination": "https://blog.iamsuri.ai", "permanent": true },
+    { "source": "/anoncafe/:path*", "destination": "https://anoncafe.life/:path*", "permanent": true },
+    { "source": "/anoncafe", "destination": "https://anoncafe.life", "permanent": true }
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
