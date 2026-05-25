@@ -9,7 +9,7 @@ import './ViewSwitcher.css';
 export default function ViewSwitcher() {
   return (
     <Link
-      to="/3d"
+      to="/"
       className="view-switcher"
       title="Switch to 3D world"
       aria-label="Switch to 3D world"
