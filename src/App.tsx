@@ -43,32 +43,25 @@ const About = lazy(() => import('./components/pages/About'));
  * React mounts:
  *
  * 1. If the URL is the legacy `?view=3d` query shape, rewrite it to
- *    `/3d` so the router boots on the right path (no stale `/` render).
- * 2. If the resolved path is `/3d`, kick off the dynamic import for the
- *    3D chunk *now* instead of waiting for React + Suspense to reach
- *    the route. The network round-trip runs in parallel with React
- *    bootstrap, shaving ~1s off cold start on the `/3d` deep link.
+ *    `/` so the router boots on the right path (no stale render).
+ * 2. Preload the correct chunk based on resolved path.
  */
 function bootstrapRoute() {
   if (typeof window === 'undefined') return;
   const params = new URLSearchParams(window.location.search);
-  // P1.2 architect note: only rewrite ?view=3d when on the root path,
-  // so a hypothetical /work?view=3d link doesn't silently drop /work.
   if (
     params.get('view') === '3d' &&
     window.location.pathname === '/'
   ) {
-    window.history.replaceState(null, '', '/3d' + window.location.hash);
+    // Already the default now — just strip the query param
+    window.history.replaceState(null, '', '/' + window.location.hash);
   }
-  if (window.location.pathname === '/3d') {
-    // Fire-and-forget: the lazy() above shares this in-flight promise
-    // so the Suspense fallback resolves as soon as possible.
-    void world3dImport();
-  } else {
-    // Same trick for the Landing route — kick off the dynamic import so
-    // the editorial page + font CSS stream in parallel with React
-    // bootstrap instead of waiting for the Suspense boundary.
+  if (window.location.pathname === '/2d') {
+    // Preload landing for the 2D route
     void landingImport();
+  } else {
+    // Default is 3D — preload the 3D world
+    void world3dImport();
   }
 }
 
@@ -142,14 +135,14 @@ function ContentRoute({ children, hideDock = false }: { children: React.ReactNod
 }
 
 /**
- * /3d — lazy-loaded 3D world. The Exit HUD button (see
+ * / — 3D world is the default landing. The Exit HUD button (see
  * `src/world3d/hud/ViewSwitcher.tsx`) calls `onExitTo2D`, which we wire
- * to `navigate('/')` so the back/exit flow goes through router history.
+ * to `navigate('/2d')` so the back/exit flow goes through router history.
  */
 function ThreeDRoute() {
   const navigate = useNavigate();
   const handleExit = useCallback(() => {
-    navigate('/');
+    navigate('/2d');
   }, [navigate]);
 
   useEffect(() => {
@@ -191,7 +184,9 @@ export default function App() {
       <SkipLink />
       <RouteAnnouncer />
       <Routes>
-        <Route path="/" element={<LandingRoute />} />
+        <Route path="/" element={<ThreeDRoute />} />
+        <Route path="/2d" element={<LandingRoute />} />
+        <Route path="/3d" element={<Navigate to="/" replace />} />
         <Route
           path="/work"
           element={
@@ -248,7 +243,6 @@ export default function App() {
             </ContentRoute>
           }
         />
-        <Route path="/3d" element={<ThreeDRoute />} />
         <Route
           path="/blog"
           element={
