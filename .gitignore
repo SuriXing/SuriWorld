@@ -30,3 +30,7 @@ dist-ssr
 test-results/
 playwright-report/
 .playwright-cache/
+
+# Agent harness artifacts
+.harness*/
+.claude/
