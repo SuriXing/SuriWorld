@@ -15,7 +15,7 @@ export const PROJECT_LINKS: readonly ProjectLink[] = [
     id: 'blog',
     label: 'Blog',
     description: 'Things I am writing',
-    href: 'https://blog.iamsuri.ai/',
+    href: 'https://blog.suri.world/',
     hue: '#4ade80',
   },
   {
