@@ -10,8 +10,8 @@ export default function ProjectsDock() {
     <nav className="projects-dock" aria-label="External projects">
       <ul>
         {PROJECT_LINKS.map((p) => {
-          // Internal routes (e.g. /blog coming-soon placeholder) stay in
-          // the same tab; external absolute URLs open in a new tab.
+          // Internal routes stay in the same tab; external absolute URLs
+          // open in a new tab.
           const isExternal = /^https?:\/\//.test(p.href);
           return (
             <li key={p.id}>

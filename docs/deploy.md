@@ -64,15 +64,14 @@ Either:
   push to `main` becomes a production deploy, every PR becomes a preview.
   Recommended — no manual command needed after setup.
 
-## Known TODOs before launch
+## External project links
 
-Two external URLs are placeholders in `src/data/links.ts` — edit them
-when the real URLs exist:
+The landing-page dock links live in `src/data/links.ts` — all point at
+live sites now:
 
 - `blog` → `https://blog.iamsuri.ai`
-- `anoncafe` → `https://anoncafe.iamsuri.ai`
-
-Search for `TODO` in that file.
+- `anoncafe` → `https://anoncafe.life`
+- `mentor-table` → `https://mentor-table.vercel.app`
 
 ## Troubleshooting
 
