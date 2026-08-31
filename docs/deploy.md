@@ -68,9 +68,9 @@ Either:
 
 The landing-page dock links live in `src/data/links.ts`:
 
-- `blog` → `https://blog.suri.world` — DNS CNAME is already set; the
-  domain still needs to be bound to the blog's Vercel project
-  (**Settings → Domains**) before the link resolves.
+- `blog` → `https://blog.suri.world` — the blog source lives in `blog/`
+  and deploys as its own Vercel project (see `blog/README.md`); bind the
+  domain in that project's **Settings → Domains** on first setup.
 - `anoncafe` → `https://anoncafe.life`
 - `mentor-table` → `https://mentor-table.vercel.app`
 
