@@ -15,10 +15,7 @@ export const PROJECT_LINKS: readonly ProjectLink[] = [
     id: 'blog',
     label: 'Blog',
     description: 'Things I am writing',
-    // Routes to an on-site "coming soon" page until the external blog
-    // (blog.iamsuri.ai) is live. Kept as an internal path so the dock CTA
-    // never 404s.
-    href: '/blog',
+    href: 'https://blog.iamsuri.ai/',
     hue: '#4ade80',
   },
   {
