@@ -1,4 +1,4 @@
-# Deploy to `iamsuri.ai`
+# Deploy to `suri.world`
 
 The site is a Vite + React SPA. One build, one deployable. The 2D landing
 page (`src/App.tsx`) lazy-loads the 3D world (`src/world3d/App3D.tsx`) the
@@ -43,13 +43,13 @@ Vite, caches `/assets/*` for a year, and rewrites all paths to
    Vercel will build, upload, and print a URL like
    `https://iamsuri-xxxxxx.vercel.app`.
 
-### Point `iamsuri.ai` at Vercel
+### Point `suri.world` at Vercel
 
 1. Open the project on [vercel.com](https://vercel.com) → **Settings →
    Domains**.
-2. Add `iamsuri.ai` and `www.iamsuri.ai`.
+2. Add `suri.world` (and `www.suri.world` if you want the www subdomain).
 3. Vercel will show you DNS records to add at your registrar (where you
-   bought `iamsuri.ai`). Typically:
+   bought `suri.world`). Typically:
    - **A record**: `@` → `76.76.21.21`
    - **CNAME**: `www` → `cname.vercel-dns.com`
    Copy whatever Vercel shows — they update their IPs occasionally.
@@ -66,19 +66,20 @@ Either:
 
 ## External project links
 
-The landing-page dock links live in `src/data/links.ts` — all point at
-live sites now:
+The landing-page dock links live in `src/data/links.ts`:
 
-- `blog` → `https://blog.iamsuri.ai`
+- `blog` → `https://blog.suri.world` — DNS CNAME is already set; the
+  domain still needs to be bound to the blog's Vercel project
+  (**Settings → Domains**) before the link resolves.
 - `anoncafe` → `https://anoncafe.life`
 - `mentor-table` → `https://mentor-table.vercel.app`
 
 ## Troubleshooting
 
-- **`iamsuri.ai` shows a 404 or parked page** — DNS hasn't propagated, or
-  you're hitting a cached nameserver. Try `dig iamsuri.ai` or wait 30 min.
-- **Old GitHub Pages URL still works** — delete the `gh-pages` branch and
-  disable Pages in repo settings once Vercel is serving the domain.
+- **`suri.world` shows a 404 or parked page** — DNS hasn't propagated, or
+  you're hitting a cached nameserver. Try `dig suri.world` or wait 30 min.
+- **Old domain still resolves** — keep both domains added in Vercel
+  **Settings → Domains** until the old one lapses, then remove it.
 - **3D never loads for a visitor** — check the browser network tab: the
   `App3D-*.js` chunk should download when they click the 3D button. If it
   404s, the asset `Cache-Control` header may be blocking it — remove the

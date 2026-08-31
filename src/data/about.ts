@@ -26,7 +26,7 @@ export const about: AboutSuri = {
     'If any of it resonates — or you\'ve thought about building one of these things yourself — find me. I\'d rather have one real conversation than a hundred page views.',
   ].join('\n'),
   contact: {
-    email: 'hi@iamsuri.ai',
+    email: 'hi@suri.world',
     github: 'https://github.com/surixing',
   },
   tags: ['Math', 'Design', 'Debate', 'Building', 'Writing', 'AI'],

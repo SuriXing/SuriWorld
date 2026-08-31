@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { posts } from './src/data/posts';
 import type { Post } from './src/data/schema';
 
-const SITE_URL = 'https://iamsuri.ai';
+const SITE_URL = 'https://suri.world';
 const FEED_TITLE = "Suri's Writing";
 const FEED_DESCRIPTION =
   'Short essays on building, thinking, and learning by shipping — by Suri Xing.';
@@ -113,7 +113,7 @@ function rssFeedPlugin(): Plugin {
   };
 }
 
-// Deployed to iamsuri.ai via Vercel — root-relative paths.
+// Deployed to suri.world via Vercel — root-relative paths.
 // (Previously served under /iamsuri/ on GitHub Pages.)
 export default defineConfig({
   plugins: [react(), rssFeedPlugin()],
