@@ -25,8 +25,7 @@ export const PROJECT_LINKS: readonly ProjectLink[] = [
     id: 'anoncafe',
     label: 'AnonCafe',
     description: 'Anonymous conversations',
-    // Same as /blog above — internal "coming soon" until anoncafe.iamsuri.ai ships.
-    href: '/anoncafe',
+    href: 'https://anoncafe.life/',
     hue: '#f4a8b8',
   },
   {
