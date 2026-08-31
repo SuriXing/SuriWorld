@@ -244,14 +244,6 @@ export default function App() {
           }
         />
         <Route
-          path="/blog"
-          element={
-            <ContentRoute>
-              <ComingSoon />
-            </ContentRoute>
-          }
-        />
-        <Route
           path="/anoncafe"
           element={
             <ContentRoute>

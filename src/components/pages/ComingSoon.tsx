@@ -7,14 +7,13 @@ import './NotFound.css';
 
 /**
  * Shared "Coming soon" page for links that don't have a destination yet
- * (Blog, AnonCafe). Reuses the NotFound editorial styling so the visual
+ * (AnonCafe). Reuses the NotFound editorial styling so the visual
  * language stays consistent — no new CSS needed.
  *
- * The label comes from the route's pathname so the same component serves
- * /blog and /anoncafe without duplication.
+ * The label comes from the route's pathname so the same component can
+ * serve more placeholder routes without duplication.
  */
 const LABELS: Record<string, string> = {
-  '/blog': 'Blog',
   '/anoncafe': 'AnonCafe',
 };
 
