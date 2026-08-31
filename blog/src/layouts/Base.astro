@@ -13,6 +13,7 @@ const {
   description = 'Coding journey, math, and small things I build, by Suri.',
 } = Astro.props;
 const pageTitle = title ? `${title} - Suri's Blog` : "Suri's Blog";
+// Absolute paths below carry the /blog base from astro.config.mjs.
 ---
 
 <!doctype html>
@@ -26,31 +27,31 @@ const pageTitle = title ? `${title} - Suri's Blog` : "Suri's Blog";
       rel="alternate"
       type="application/rss+xml"
       title="Suri's Blog"
-      href="/rss.xml"
+      href="/blog/rss.xml"
     />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href="/blog/sitemap-index.xml" />
   </head>
   <body>
     <div class="shell">
       <header class="site-head">
-        <p class="wordmark"><a href="/">Suri's Blog</a></p>
+        <p class="wordmark"><a href="/blog/">Suri's Blog</a></p>
         <p class="tagline">
           Learning to code in public: C, math competitions, and small shipped
           things.
         </p>
         <nav class="site-nav" aria-label="Site">
-          <a href="/">Posts</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="https://suri.world">suri.world</a>
+          <a href="/blog/">Posts</a>
+          <a href="/blog/rss.xml">RSS</a>
+          <a href="/">Main site</a>
         </nav>
       </header>
       <slot />
       <footer class="site-foot">
         <span>© {new Date().getFullYear()} Suri Xing</span>
         <span>
-          <a href="/rss.xml">RSS</a>
+          <a href="/blog/rss.xml">RSS</a>
           <span aria-hidden> · </span>
-          <a href="https://suri.world">suri.world</a>
+          <a href="/">Main site</a>
         </span>
       </footer>
     </div>

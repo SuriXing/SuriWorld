@@ -1,8 +1,9 @@
 # Suri's Blog
 
-Astro static blog, deployed at **https://blog.suri.world** as its own Vercel
-project. Lives in this repo under `blog/` so the main site and the blog
-version together; they deploy independently.
+Astro static blog served at **https://suri.world/blog**. It builds as part
+of the main Vercel project: the root build command (`npm run build:all`)
+builds this site and merges its output into `dist/blog/`. No separate
+Vercel project or domain is needed.
 
 ## Writing a post
 
@@ -20,30 +21,30 @@ Body text here.
 
 - `date` accepts `YYYY-MM-DD`.
 - Set `draft: true` to keep a post out of the index, RSS, and build.
-- The filename becomes the URL: `my-new-post.md` -> `/posts/my-new-post/`.
+- The filename becomes the URL: `my-new-post.md` ->
+  `/blog/posts/my-new-post/`.
 
 ## Privacy
 
 The repo is private. Raw markdown only ever lives in the repo; the static
-build ships rendered HTML, so `.md` sources are never downloadable from the
-site.
+build ships rendered HTML, so `.md` sources are never downloadable from
+the site.
 
 ## Run locally
 
 ```bash
+# Blog only, with hot reload (served under the /blog base path):
 cd blog
 npm install
-npm run dev      # http://localhost:4321
-npm run build    # static output in dist/
+npm run dev      # http://localhost:4321/blog/
+
+# Full site + blog merged, exactly like production (from the repo root):
+npm run build:all
+npm run preview  # http://localhost:4173, blog at /blog
 ```
 
-## Deploy (one-time Vercel setup)
+## Deploy
 
-1. Vercel dashboard -> **Add New Project** -> import `SuriXing/SuriWorld`.
-2. **Root Directory**: `blog` (Framework auto-detects Astro).
-3. After first deploy: **Settings -> Domains** -> add `blog.suri.world`
-   (the DNS CNAME is already pointed at Vercel).
-4. Pushes to `main` that touch `blog/` redeploy the blog automatically.
-
-The main site keeps a `/blog` redirect to this domain, so old links keep
-working.
+Nothing extra: the blog ships with every deploy of the main `suri.world`
+Vercel project. The `blog.suri.world` DNS record is unused by this setup
+and can be removed.

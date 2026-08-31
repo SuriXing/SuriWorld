@@ -68,9 +68,8 @@ Either:
 
 The landing-page dock links live in `src/data/links.ts`:
 
-- `blog` → `https://blog.suri.world` — the blog source lives in `blog/`
-  and deploys as its own Vercel project (see `blog/README.md`); bind the
-  domain in that project's **Settings → Domains** on first setup.
+- `blog` → `/blog` — an Astro blog built from `blog/` and merged into the
+  main build (`npm run build:all`, see `blog/README.md`).
 - `anoncafe` → `https://anoncafe.life`
 - `mentor-table` → `https://mentor-table.vercel.app`
 

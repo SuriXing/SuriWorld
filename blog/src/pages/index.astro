@@ -23,7 +23,7 @@ const years = [...new Set(posts.map((p) => p.data.date.getFullYear()))]
         <ul class="postlist">
           {items.map((post) => (
             <li>
-              <a href={`/posts/${post.id}/`}>
+              <a href={`/blog/posts/${post.id}/`}>
                 <span class="posttitle">{post.data.title}</span>
                 <span class="postmeta">
                   {fmtDate(post.data.date)} · {post.data.category}
