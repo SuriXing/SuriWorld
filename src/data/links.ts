@@ -15,7 +15,9 @@ export const PROJECT_LINKS: readonly ProjectLink[] = [
     id: 'blog',
     label: 'Blog',
     description: 'Things I am writing',
-    href: 'https://blog.suri.world/',
+    // Astro blog served from the same Vercel project (merged build, see
+    // blog/README.md). Internal path -> opens in the same tab.
+    href: '/blog',
     hue: '#4ade80',
   },
   {
