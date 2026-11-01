@@ -58,14 +58,14 @@ test.describe('3D World Landing Page', () => {
     const isActive = await overlay.evaluate(el => el.classList.contains('active'));
     expect(isActive).toBe(true);
     const text = await overlay.textContent();
-    expect(text).toContain('Problem Solver');
+    expect(text).toContain('AnonCafe');
     expect(text).toContain('Mentor Table');
     // Check links
     const links = await overlay.$$('a');
     expect(links.length).toBeGreaterThanOrEqual(2);
     const href1 = await links[0].getAttribute('href');
     const href2 = await links[1].getAttribute('href');
-    expect(href1).toContain('problem-solver.vercel.app');
+    expect(href1).toContain('anoncafe.life');
     expect(href2).toContain('mentor-table.vercel.app');
   });
 

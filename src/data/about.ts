@@ -21,7 +21,7 @@ export const about: AboutSuri = {
     '',
     'I grew up loving math the way other kids love sports — for the puzzles and the patterns. Somewhere along the way that turned into a habit of looking for structure in everything: debate cases, chord progressions, the layout of a webpage, the shape of my own worries.',
     '',
-    'Most of my projects live at the intersection of math, design, and people. Problem Solver and Mentor Table are the first two that made it out into the world. The ideas page has the ones still brewing.',
+    'Most of my projects live at the intersection of math, design, and people. AnonCafe and Mentor Table are the first two that made it out into the world. The ideas page has the ones still brewing.',
     '',
     'If any of it resonates — or you\'ve thought about building one of these things yourself — find me. I\'d rather have one real conversation than a hundred page views.',
   ].join('\n'),

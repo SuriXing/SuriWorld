@@ -141,7 +141,7 @@ const index = new MiniSearch<SearchDoc>({
   storeFields: ['id'],
   idField: 'id',
   searchOptions: {
-    // Prefix lets "prod" match "Problem Solver"; fuzzy 0.2 gives a
+    // Prefix lets "anon" match "AnonCafe"; fuzzy 0.2 gives a
     // small edit-distance budget so typos still resolve.
     prefix: true,
     fuzzy: 0.2,

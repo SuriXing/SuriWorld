@@ -22,9 +22,9 @@ interface ProductRoomContent {
 export const PRODUCT_ROOM_CONTENT: ProductRoomContent = {
   dialogues: {
     problemSolver: {
-      title: 'Problem Solver',
-      body: 'Drop your worry in, get help thinking it through.',
-      link: 'https://problem-solver.vercel.app',
+      title: 'AnonCafe',
+      body: 'Drop your worry in — the replies come back with your access code.',
+      link: 'https://anoncafe.life',
     },
     mentorTable: {
       title: 'Mentor Table',
@@ -54,7 +54,7 @@ const SHOWCASE_PLACEHOLDER_PITCH =
   '(Project pitch coming soon — Suri is still writing this one up.)';
 
 export const PROJECT_SHOWCASE_ENTRIES: ReadonlyArray<ProjectShowcaseEntry> = [
-  { id: 'problem-solver', title: 'Problem Solver', pitch: SHOWCASE_PLACEHOLDER_PITCH, accent: '#22d3ee', link: 'https://problem-solver.vercel.app' },
+  { id: 'problem-solver', title: 'AnonCafe', pitch: SHOWCASE_PLACEHOLDER_PITCH, accent: '#22d3ee', link: 'https://anoncafe.life' },
   { id: 'mentor-table',   title: 'Mentor Table',   pitch: SHOWCASE_PLACEHOLDER_PITCH, accent: '#22c55e', link: 'https://mentor-table.vercel.app' },
   { id: 'debate-coach',   title: 'Debate Coach',   pitch: SHOWCASE_PLACEHOLDER_PITCH, accent: '#facc15' },
   { id: 'study-stack',    title: 'Study Stack',    pitch: SHOWCASE_PLACEHOLDER_PITCH, accent: '#fb7185' },

@@ -27,9 +27,9 @@ export function RoomOverlays() {
         <h2>Product Room</h2>
         <div className="product-card">
           <span className="live-badge">LIVE</span>
-          <h3>Problem Solver</h3>
+          <h3>AnonCafe</h3>
           <p>Drop your worry in</p>
-          <a href="https://problem-solver.vercel.app" target="_blank" rel="noopener noreferrer">
+          <a href="https://anoncafe.life" target="_blank" rel="noopener noreferrer">
             Visit &rarr;
           </a>
         </div>
