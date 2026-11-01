@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Suri's Lab
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+My personal site — an editorial portfolio at [suri.world](https://suri.world), a
+playable 3D room, and a blog.
 
-Currently, two official plugins are available:
+- `/` — 2D editorial landing: work, writing, ideas, about
+- `/3d` — explorable 3D room built with React Three Fiber
+- `/blog` — Astro blog, built separately and merged into the main build
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- React 19 + TypeScript + Vite, routed with react-router
+- three.js / React Three Fiber / drei for the 3D world
+- Astro for the blog (`blog/`)
+- Deployed on Vercel — `vercel.json` holds the redirects, rewrites and
+  security headers
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run it locally
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev        # site at http://localhost:5173 (the 3D world is lazy-loaded)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The blog is its own Astro project under `blog/`, so the full build is:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build      # type-check + production build of the site
+npm run build:all  # site + blog, merged into dist/
+npm run lint
 ```
+
+## Deploy
+
+Production deploys go to Vercel: `npm run deploy`. In production `/anoncafe*`
+redirects to `anoncafe.life`, and the 3D smoke tests live in `tests/`
+(`npx playwright test`, needs a running dev server).
+
+## Layout
+
+- `src/components/pages` — 2D pages (Landing, Work, Writing, Ideas, About, …)
+- `src/components/shared` — dock, search, theme toggle, skip link
+- `src/world3d/` — 3D scene, HUD and store
+- `src/data/` — canonical content: products, posts, ideas, about
+- `blog/` — Astro blog (posts in `blog/src/content/blog`)
+- `tests/` — Playwright smoke tests for the 3D world
+
+## Notes
+
+- Content lives in `src/data/`; edit there, not inside page components.
+- The 3D world is lazy-loaded so the 2D landing stays light.
+- `npm run deploy` targets the `surixing-outlookcoms-projects` Vercel scope.
