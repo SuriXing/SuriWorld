@@ -1,13 +1,9 @@
 /**
  * Canonical writing entries for the 2D rich portfolio.
  *
- * Shape: `Post` from `./schema`. Collapses the legacy 3D `bookRoom.ts`
- * blog-post stub list into a typed `Post[]` and adds two external-link
- * examples so P1.7 can demo both body-rendering paths (`inline` vs
- * `external`) without guesswork.
- *
- * Titles + dates preserved from bookRoom.ts — "Why I Build Things" /
- * "Learning by Shipping" — with scaffolded inline body text.
+ * Shape: `Post` from `./schema`. Only the published inline essays live
+ * here — the coming-soon stubs from the first 2D pass were removed once
+ * the real blog shipped at suri.world/blog.
  */
 
 import type { Post } from './schema';
@@ -48,42 +44,5 @@ export const posts: Post[] = [
     tags: ['learning', 'building', 'education'],
     date: '2026-03',
     status: 'published',
-  },
-  {
-    slug: 'what-im-reading',
-    title: 'What I\'m Reading',
-    excerpt: 'A running list of the books shaping how I think right now.',
-    kind: 'coming-soon',
-    status: 'coming-soon',
-    tags: ['reading', 'books'],
-    date: '2026-05',
-  },
-  {
-    // P1.8 gate fix: was 'external' linking to a placeholder medium.com URL
-    // that returned 403. Downgraded to coming-soon so we don't ship a dead
-    // external link on a published post. Will become inline once the guest
-    // piece is actually published on a real host.
-    slug: 'debate-as-thinking-practice',
-    title: 'Debate as Thinking Practice (guest post)',
-    excerpt:
-      'A longer piece I wrote for a debate-coaching blog on how round prep maps onto general-purpose thinking skills.',
-    kind: 'coming-soon',
-    tags: ['debate', 'thinking', 'guest'],
-    date: '2026-02',
-    status: 'coming-soon',
-  },
-  {
-    // P1.7: was 'external' linking to https://blog.iamsuri.ai/...
-    // (DNS fail). Downgraded to coming-soon so the portfolio doesn't
-    // ship a dead external link. Will become inline once the personal
-    // blog is wired up.
-    slug: 'first-principles-for-8th-graders',
-    title: 'First Principles, Explained for 8th Graders',
-    excerpt:
-      'A plain-language breakdown of first-principles thinking, aimed at people my age. Will live on the personal blog when it ships.',
-    kind: 'coming-soon',
-    status: 'coming-soon',
-    tags: ['thinking', 'learning'],
-    date: '2026-01',
   },
 ];
