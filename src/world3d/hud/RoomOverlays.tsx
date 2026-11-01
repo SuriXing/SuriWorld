@@ -14,7 +14,7 @@ export function RoomOverlays() {
     <>
       <div id="overlay-myroom" className={cls('myroom')}>
         <h2>My Room</h2>
-        <p className="bio">Suri Xing, Grade 8</p>
+        <p className="bio">Suri Xing, Grade 9</p>
         <div className="tags">
           <span className="tag purple">Math</span>
           <span className="tag purple">Design</span>

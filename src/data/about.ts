@@ -2,7 +2,7 @@
  * Canonical "About Suri" content for the 2D rich portfolio.
  *
  * Shape: `AboutSuri` from `./schema`. Seeded from the 3D MyRoom monitor
- * dialogue ("Suri Xing, Grade 8 — Math · Design · Debate · Building") and
+ * dialogue ("Suri Xing, Grade 9 — Math · Design · Debate · Building") and
  * expanded into a proper multi-paragraph bio for P1.7.
  *
  * The legacy `src/data/myRoom.ts` is NOT touched — it stays as the 3D
@@ -15,9 +15,9 @@ export type { AboutSuri } from './schema';
 
 export const about: AboutSuri = {
   name: 'Suri Xing',
-  tagline: 'Grade 8 · Math · Design · Debate · Building',
+  tagline: 'Grade 9 · Math · Design · Debate · Building',
   bio: [
-    'Hi — I\'m Suri. I\'m in 8th grade. I build small things on the internet because it\'s the fastest way I know to turn an idea into something real.',
+    'Hi — I\'m Suri. I\'m in 9th grade. I build small things on the internet because it\'s the fastest way I know to turn an idea into something real.',
     '',
     'I grew up loving math the way other kids love sports — for the puzzles and the patterns. Somewhere along the way that turned into a habit of looking for structure in everything: debate cases, chord progressions, the layout of a webpage, the shape of my own worries.',
     '',

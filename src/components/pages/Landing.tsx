@@ -64,7 +64,7 @@ function HeroSection() {
       <HeroAccent />
       <p className="landing-hero__tagline">{about.tagline}</p>
       <p className="landing-hero__intro">
-        I&apos;m a Grade 8 builder who ships small, rough, real things to
+        I&apos;m a Grade 9 builder who ships small, rough, real things to
         learn how ideas actually work. This is where I keep them —
         projects, writing, and ideas still brewing.
       </p>

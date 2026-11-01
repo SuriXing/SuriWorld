@@ -48,7 +48,7 @@ test.describe('3D World Landing Page', () => {
     expect(isActive).toBe(true);
     const text = await overlay.textContent();
     expect(text).toContain('Suri Xing');
-    expect(text).toContain('Grade 8');
+    expect(text).toContain('Grade 9');
   });
 
   test('Product Room navigation with correct links', async ({ page }) => {
