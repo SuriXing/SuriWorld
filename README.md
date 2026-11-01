@@ -1,5 +1,7 @@
 # Suri's Lab
 
+![Suri's Lab](docs/screenshots/portfolio.png)
+
 My personal site — an editorial portfolio at [suri.world](https://suri.world), a
 playable 3D room, and a blog.
 
