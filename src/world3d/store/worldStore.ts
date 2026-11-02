@@ -260,8 +260,12 @@ export const useWorldStore = create<WorldState>((set) => ({
 }));
 
 // Test/dev seam: expose store on window (typed via global.d.ts). Gated
-// behind DEV so the store isn't reachable from third-party scripts /
-// extensions / console spelunkers in production.
-if (typeof window !== 'undefined' && import.meta.env.DEV) {
+// behind DEV (plus the VITE_E2E_BRIDGES build-time flag for the e2e run's
+// production preview build) so the store isn't reachable from third-party
+// scripts / extensions / console spelunkers in real user builds.
+if (
+  typeof window !== 'undefined' &&
+  (import.meta.env.DEV || import.meta.env.VITE_E2E_BRIDGES === '1')
+) {
   window.__worldStore = useWorldStore;
 }

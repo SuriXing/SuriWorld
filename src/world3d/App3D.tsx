@@ -49,9 +49,11 @@ export default function App3D({ onExitTo2D }: Props) {
 
   // Legacy window bridges that Playwright drives directly. Installed on
   // mount so the 3D world is reachable from tests via `window.navigateTo*`.
-  // Gated behind DEV so the bridges do not ship to production bundles.
+  // Gated behind DEV (plus the VITE_E2E_BRIDGES build-time flag so the
+  // e2e run can attach them in a production preview build); real user
+  // builds never ship the bridges.
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
+    if (!import.meta.env.DEV && import.meta.env.VITE_E2E_BRIDGES !== '1') return;
     type Bridge = {
       navigateToRoom?: (id: string) => void;
       navigateToOverview?: () => void;

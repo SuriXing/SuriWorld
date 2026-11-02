@@ -167,6 +167,11 @@ test.describe('3D World Landing Page', () => {
     // ~(-3.7, -3.7); doorway is around (-3.7, -1.8) on the +z side).
     await page.evaluate(() => {
       window.__worldStore.getState().setCharPos(-3.7, -1.8);
+      // setCharPos doesn't touch facing, and the default charFacing is 0
+      // (looking -z). The My Room door sits at +z of the teleport point
+      // (door z = -1.25, char z = -1.8), so face +z (π) — otherwise the
+      // U-key "door must be in front" rule ignores the press entirely.
+      window.__worldStore.getState().setCharFacing(Math.PI);
     });
     await page.waitForTimeout(200);
 

@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "vite build",
-    "deploy": "vercel deploy --prod --yes --scope surixing-outlookcoms-projects"
+    "deploy": "vercel deploy --prod --yes --scope surixing-outlookcoms-projects",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.2.9",
