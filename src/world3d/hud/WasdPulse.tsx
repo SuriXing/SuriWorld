@@ -23,14 +23,21 @@ export function WasdPulse() {
     } catch {
       /* sessionStorage may be blocked — fall through and show anyway */
     }
-    setVisible(true);
+    // Show trigger lives in a frame callback: the effect body stays free
+    // of synchronous setState, which is what react-hooks/
+    // set-state-in-effect asks for. The pulse mounts one frame later —
+    // imperceptible at 60fps.
+    const show = requestAnimationFrame(() => setVisible(true));
     try {
       sessionStorage.setItem(SS_KEY, '1');
     } catch {
       /* noop */
     }
     const t = setTimeout(() => setVisible(false), 3500);
-    return () => clearTimeout(t);
+    return () => {
+      cancelAnimationFrame(show);
+      clearTimeout(t);
+    };
   }, [introPhase, fpActive]);
 
   if (!visible) return null;
