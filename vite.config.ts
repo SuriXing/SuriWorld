@@ -101,7 +101,7 @@ ${itemsXml}
  */
 function rssFeedPlugin(): Plugin {
   return {
-    name: 'iamsuri-rss-feed',
+    name: 'suriworld-rss-feed',
     apply: 'build',
     generateBundle() {
       this.emitFile({

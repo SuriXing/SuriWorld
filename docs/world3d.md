@@ -1,15 +1,14 @@
 # 3D World Architecture
 
-The 3D world is a React Three Fiber app mounted at `/iamsuri/3d-world.html` as a Vite MPA entry. Source lives in `src/world3d/`.
+The 3D world is a React Three Fiber app lazy-loaded by `src/App.tsx` (`import('./world3d/App3D')` under Suspense) and mounted at `/` — it is the default landing. Source lives in `src/world3d/`.
 
 ## Layout
 
 ```
-3d-world.html              # MPA entry HTML (project root, NOT public/)
 src/world3d/
-  main.tsx                 # createRoot + window test bridges
-  App3D.tsx                # <Canvas> + <Hud> shell
+  App3D.tsx                # <Canvas> + <Hud> shell (the lazy entry component)
   constants.ts             # geometry, colors, speeds, storage keys
+  exitContext.ts           # context so HUD children reach onExitTo2D
   global.d.ts              # window.__worldStore + bridges typing
   world3d.css              # HUD styles
   data/rooms.ts            # ROOMS table (id, label, center, colors)
@@ -19,13 +18,13 @@ src/world3d/
     CameraController.tsx   # Tweens camera between overview and FP
     PlayerController.tsx   # WASD movement (overview only)
     InteractionManager.tsx # Keyboard handler + proximity detection
-    Door.tsx, RoomFloor.tsx, Walls.tsx, Hallway.tsx, ...
-    rooms/                 # Per-room interactables (props, books, etc.)
+    InteractionRaycaster.tsx # Hover/E targeting (userData + raycast)
+    Door.tsx, Room.tsx, Hallway.tsx, Character.tsx, Skybox.tsx, ...
+    parts/, rooms/         # Reusable scene parts and per-room interactables
   hud/                     # DOM overlay (back button, modals, hints)
   hooks/                   # useKeyboard, usePointerLock
+  util/                    # rand.ts — deterministic PRNG for scatter data
 ```
-
-The HTML entry must live at the project root because files in `public/` bypass Vite's bundler and can't import TS modules.
 
 ## State machine
 
@@ -72,8 +71,10 @@ Playwright tests live in `tests/3d-world.test.cjs`. Two flavors:
 - **Bridge-based** (most tests): use `window.navigateToRoom(id)` from `main.tsx` to jump directly into a room. Fast and stable for asserting overlay/HUD content.
 - **Real-flow** (`keyboard flow: teleport → unlock → enter → exit`): teleports the character to a doorway, then exercises the actual U/E/Escape key handlers in `InteractionManager`. Validates the unlock + nav + exit code paths.
 
-Run: `npx playwright test --config=playwright.config.cjs`
+Run: `npm run test:e2e` — serves the production build via `vite preview`
+and runs headless Chromium (see `playwright.config.ts`). Workers are pinned
+to 1 because every test cold-starts WebGL.
 
 ## 2D → 3D hand-off
 
-`src/components/shared/ViewSwitcher.tsx` is a plain anchor that links to `${BASE_URL}3d-world.html`. Vite's MPA build emits both `index.html` (the 2D site) and `3d-world.html` (this app) with shared chunks where possible. No client-side router involved — it's a hard navigation.
+The 3D world is the default landing at `/`; the 2D editorial page lives at `/2d`, and `/3d` redirects to `/`. `src/components/shared/ViewSwitcher.tsx` is a react-router `<Link to="/">` on the 2D page, and `App.tsx` lazy-loads both worlds under Suspense — three.js only evaluates when a visitor actually enters the world, so the 2D page stays lightweight.
